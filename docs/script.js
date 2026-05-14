@@ -848,3 +848,69 @@ setTimeout(() => {
 console.log('%c✨ Présentation LDA MNIST chargée avec succès!', 'color: #FF7F0E; font-size: 14px; font-weight: bold;');
 console.log('%cAppuyez sur → pour commencer', 'color: #1F77B4; font-size: 12px;');
 console.log('%c💻 Cliquez sur les blocs de code pour voir les explications!', 'color: #2CA02C; font-size: 12px;');
+
+/* ============================================================================
+   VISUALISATION 2D LDA - GÉNÉRATION DE POINTS
+   ============================================================================ */
+
+/**
+ * Génère une distribution gaussienne pour les points 2D
+ */
+function gaussianRandom(mean = 0, stdev = 1) {
+    let u = 0, v = 0;
+    while (u === 0) u = Math.random();
+    while (v === 0) v = Math.random();
+    let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    return num * stdev + mean;
+}
+
+/**
+ * Génère les points 2D pour le scatter plot
+ */
+function generateLDA2DPoints() {
+    const container = document.getElementById('lda2d-points-container');
+    if (!container) return;
+
+    // Centres des clusters (left%, top%)
+    const clusterCenters = [
+        { left: 10, top: 67, class: 0 },   // Bleu bas-gauche
+        { left: 28, top: 55, class: 1 },   // Orange centre-gauche
+        { left: 35, top: 38, class: 2 },   // Vert centre
+        { left: 40, top: 22, class: 3 },   // Rose haut-centre
+        { left: 55, top: 48, class: 4 },   // Rouge centre
+        { left: 65, top: 35, class: 5 },   // Magenta centre-droit
+        { left: 18, top: 75, class: 6 },   // Jaune bas-gauche
+        { left: 48, top: 70, class: 7 },   // Cyan bas-centre
+        { left: 72, top: 62, class: 8 },   // Gris droit
+        { left: 78, top: 25, class: 9 }    // Cyan haut-droit
+    ];
+
+    // Points par classe (80 points par classe)
+    const pointsPerClass = 80;
+    const totalPoints = 1000;
+    
+    let pointsHTML = '';
+    let pointIndex = 0;
+
+    clusterCenters.forEach(cluster => {
+        for (let i = 0; i < pointsPerClass; i++) {
+            // Génération gaussienne avec écart-type de 4-6%
+            const leftOffset = gaussianRandom(0, 5.5);
+            const topOffset = gaussianRandom(0, 5.5);
+            
+            const left = Math.max(5, Math.min(95, cluster.left + leftOffset));
+            const top = Math.max(5, Math.min(95, cluster.top + topOffset));
+            
+            pointsHTML += `<div class="lda2d-point point-${cluster.class}" style="left: ${left.toFixed(1)}%; top: ${top.toFixed(1)}%;"></div>`;
+            pointIndex++;
+        }
+    });
+
+    container.innerHTML = pointsHTML;
+    console.log(`✨ Visualisation 2D: ${totalPoints} points générés (${pointsPerClass} par classe)`);
+}
+
+// Générer les points au chargement
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(generateLDA2DPoints, 500);
+});
