@@ -1049,21 +1049,24 @@ body {
 
 .lda2d-axis-label {
     position: absolute;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
     color: var(--text-secondary);
     white-space: nowrap;
     z-index: 2;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 .lda2d-axis-label.axis-x-label {
-    bottom: 20px;
-    right: 50px;
-    transform: translateX(10px);
+    bottom: 15px;
+    right: 35px;
+    transform: none;
 }
 
 .lda2d-axis-label.axis-y-label {
-    left: 8px;
+    left: -8px;
     top: 35px;
     writing-mode: vertical-rl;
     text-orientation: mixed;
