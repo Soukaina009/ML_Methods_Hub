@@ -35,7 +35,7 @@ Le serveur web est **déjà en cours d'exécution**!
 8. ✅ **Étape 2: LDA** - Réduction supervisée
 9. ✅ **Variance Expliquée** - Graphique interactif
 10. ✅ **Cumulative Variance** - Courbe 90% threshold
-11. ✅ **Classification** - Résultats 95.2% accuracy
+11. ✅ **Classification** - Résultats 84.4% accuracy
 12. ✅ **Confusion Matrix** - Heatmap interactive
 
 ### Conclusion (Slides 13-16)
@@ -69,8 +69,8 @@ Tous les codes Python sont **commentés en français**:
 
 ```python
 # 1️⃣ CHARGER LES DONNÉES
-from sklearn.datasets import load_digits
-digits = load_digits()
+from sklearn.datasets import fetch_openml
+X_full, y_full = fetch_openml('mnist_784', version=1, return_X_y=True, as_frame=False)
 
 # 2️⃣ NORMALISER
 from sklearn.preprocessing import StandardScaler

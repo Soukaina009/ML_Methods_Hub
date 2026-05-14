@@ -198,7 +198,7 @@ Cette présentation couvre:
 - Application pratique sur MNIST
 - Comparaisons avec autres techniques
 - Limitations et cas d'usage
-- Résultats quantifiés (95.2% accuracy, 86% réduction)
+- Résultats quantifiés (84.4% accuracy, 98.9% réduction)
 
 ## 📞 Support
 

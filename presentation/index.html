@@ -79,19 +79,18 @@
                 <div class="code-container">
                     <div class="code-block">
                         <div class="code-header" onclick="toggleCode(this)">📥 Chargement des données avec cache</div>
-                        <pre class="code-content code-content-fade" style="display: none;"><code><span class="py-comment"># Importe les données MNIST et le système de cache persistant</span>
-<span class="py-keyword">from</span> sklearn.datasets <span class="py-keyword">import</span> load_digits
-<span class="py-keyword">import</span> pickle
+                        <pre class="code-content code-content-fade" style="display: none;"><code><span class="py-comment"># Charge MNIST 784 depuis OpenML (comme dans le notebook)</span>
+<span class="py-keyword">from</span> sklearn.datasets <span class="py-keyword">import</span> fetch_openml
+<span class="py-keyword">import</span> numpy <span class="py-keyword">as</span> np
 
-<span class="py-comment"># Charge 5000 images de chiffres manuscrits (28x28 pixels = 784 features)</span>
-digits = load_digits()
-X = digits.data  <span class="py-comment"># Matrice 5000x784 des pixels</span>
-y = digits.target  <span class="py-comment"># Vecteur des labels (0-9)</span>
+<span class="py-comment"># Dataset complet: 70 000 images, 784 features, labels 0-9</span>
+X_full, y_full = fetch_openml(<span class="py-string">'mnist_784'</span>, version=<span class="py-number">1</span>, return_X_y=<span class="py-keyword">True</span>, as_frame=<span class="py-keyword">False</span>, parser=<span class="py-string">'auto'</span>)
+y_full = y_full.astype(<span class="py-builtin">int</span>)
 
-<span class="py-comment"># Sauvegarde les données en cache Docker pour éviter de recharger</span>
-cache_file = <span class="py-string">'/data/cache/mnist_digits.pkl'</span>
-<span class="py-keyword">with</span> <span class="py-builtin">open</span>(cache_file, <span class="py-string">'wb'</span>) <span class="py-keyword">as</span> f:
-    pickle.dump((X, y), f)  <span class="py-comment"># Sérialise les données</span></code></pre>
+<span class="py-comment"># Sous-échantillon de 5000 images pour accélérer l'analyse</span>
+idx = np.random.choice(<span class="py-builtin">len</span>(X_full), size=<span class="py-number">5000</span>, replace=<span class="py-keyword">False</span>)
+X = X_full[idx]
+y = y_full[idx]</code></pre>
                     </div>
                     <div class="code-block">
                         <div class="code-header" onclick="toggleCode(this)">🔧 Application de LDA</div>
@@ -127,8 +126,8 @@ y_pred = clf.predict(X_test_lda)
 accuracy = accuracy_score(y_test, y_pred)  <span class="py-comment"># Compares labels vrais vs prédits</span>
 cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de confusion: erreurs par classe</span>
 
-<span class="py-comment"># Affiche le résultat: 95.2% de précision avec seulement 9 dimensions!</span>
-<span class="py-builtin">print</span>(<span class="py-string">f"Accuracy: {accuracy:.4f}"</span>)  <span class="py-comment"># → 0.9520</span></code></pre>
+<span class="py-comment"># Résultat observé dans le notebook: 84.4% en espace LDA (9D)</span>
+<span class="py-builtin">print</span>(<span class="py-string">f"Accuracy: {accuracy:.4f}"</span>)  <span class="py-comment"># → 0.8440</span></code></pre>
                     </div>
                 </div>
             </div>
@@ -161,7 +160,7 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                         <div class="pipeline-node" data-step="4" data-order="6">
                             <div class="node-icon">🎯</div>
                             <h4>4. CLASSIFICATION</h4>
-                            <p class="node-stat">Logistic Regression<br/>95.2% accuracy<br/>Résultat final</p>
+                            <p class="node-stat">Logistic Regression<br/>84.4% accuracy<br/>Résultat final</p>
                         </div>
                     </div>
                 </div>
@@ -292,8 +291,8 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                         <p class="small-text">vs approche directe</p>
                     </div>
                     <div class="result-card card-4">
-                        <h3>Variance (3D)</h3>
-                        <div class="big-number">59.9%</div>
+                        <h3>Variance Cumulative (3D)</h3>
+                        <div class="big-number">86.5%</div>
                         <p class="small-text">Info discriminante</p>
                     </div>
                 </div>
@@ -326,7 +325,7 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
         <!-- SLIDE 8: DISTRIBUTION PAR CLASSE -->
         <section class="slide slide-9">
             <div class="slide-content">
-                <h2 class="slide-title">📊 Variance Expliquée par Classe</h2>
+                <h2 class="slide-title">📊 Variance Expliquée par Composante</h2>
                 <div class="variance-container">
                     <div class="variance-bars">
                         <div class="variance-bar" style="height: 60.2%; background: #1F77B4;" title="60.2%">
@@ -373,24 +372,24 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                 <div class="confusion-container">
                     <div class="confusion-items">
                         <div class="confusion-item error-1">
-                            <span class="digits-confused">6 ↔ 9</span>
-                            <span class="error-count">23 erreurs</span>
-                            <p class="reason">Ressemblance visuelle</p>
+                            <span class="digits-confused">9 → 4</span>
+                            <span class="error-count">10 erreurs</span>
+                            <p class="reason">Boucle + jambage proches</p>
                         </div>
                         <div class="confusion-item error-2">
-                            <span class="digits-confused">9 ↔ 4</span>
-                            <span class="error-count">18 erreurs</span>
-                            <p class="reason">Forme similaire</p>
+                            <span class="digits-confused">3 → 5</span>
+                            <span class="error-count">8 erreurs</span>
+                            <p class="reason">Structure courbe voisine</p>
                         </div>
                         <div class="confusion-item error-3">
-                            <span class="digits-confused">3 ↔ 8</span>
-                            <span class="error-count">15 erreurs</span>
-                            <p class="reason">Courbes identiques</p>
+                            <span class="digits-confused">3 → 2</span>
+                            <span class="error-count">7 erreurs</span>
+                            <p class="reason">Trait final ambigu</p>
                         </div>
                         <div class="confusion-item error-4">
-                            <span class="digits-confused">4 ↔ 9</span>
-                            <span class="error-count">12 erreurs</span>
-                            <p class="reason">Structure commune</p>
+                            <span class="digits-confused">4 → 9</span>
+                            <span class="error-count">7 erreurs</span>
+                            <p class="reason">Sommet fermé similaire</p>
                         </div>
                     </div>
                     <div class="confusion-insight">
@@ -461,12 +460,12 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                     <div class="advantage-card adv-1">
                         <div class="adv-icon">📉</div>
                         <h3>Réduction Massive</h3>
-                        <p>86% dimensions<br/>1.3% perte info</p>
+                        <p>98.9% dimensions<br/>2.3% perte accuracy</p>
                     </div>
                     <div class="advantage-card adv-2">
                         <div class="adv-icon">⚡</div>
                         <h3>Super Rapide</h3>
-                        <p>Entraînement <0.1s<br/>5.5x speedup</p>
+                        <p>Entraînement <0.1s<br/>7x speedup</p>
                     </div>
                     <div class="advantage-card adv-3">
                         <div class="adv-icon">📐</div>
@@ -510,7 +509,7 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                     <div class="other-method">
                         <h3>LDA vs Deep Learning</h3>
                         <p class="draw">⚖️ Dépend du contexte</p>
-                        <p>DL: 99% accuracy | LDA: 95% accuracy + léger + rapide</p>
+                        <p>DL: 99% accuracy | LDA: 84.4% + léger + rapide</p>
                     </div>
                     <div class="other-method">
                         <h3>LDA vs Random Forest</h3>
@@ -573,11 +572,11 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                     </div>
                     <div class="key-point kp-4">
                         <span class="kp-number">4</span>
-                        <p><strong>Performance:</strong> 95.2% accuracy avec 9D</p>
+                        <p><strong>Performance:</strong> 84.4% accuracy avec 9D</p>
                     </div>
                     <div class="key-point kp-5">
                         <span class="kp-number">5</span>
-                        <p><strong>Speed:</strong> 5.5x plus rapide</p>
+                        <p><strong>Speed:</strong> 7x plus rapide</p>
                     </div>
                     <div class="key-point kp-6">
                         <span class="kp-number">6</span>
@@ -637,7 +636,7 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
     <div class="controls">
         <button class="btn-prev" onclick="previousSlide()">← Précédent</button>
         <div class="slide-counter">
-            <span id="current-slide">1</span> / <span id="total-slides">15</span>
+            <span id="current-slide">1</span> / <span id="total-slides">17</span>
         </div>
         <button class="btn-next" onclick="nextSlide()">Suivant →</button>
     </div>
