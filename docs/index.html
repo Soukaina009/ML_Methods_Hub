@@ -265,6 +265,32 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                             <p><strong>S<sub>w</sub>:</strong> Variance intra-classe</p>
                             <p class="highlight">→ Maximiser la discrimination</p>
                         </div>
+                        <div class="theory-details-grid">
+                            <div class="theory-item">
+                                <h4><span class="theory-icon">1</span> Discrimination</h4>
+                                <ul>
+                                    <li>Le ratio maximise la séparation entre les classes.</li>
+                                </ul>
+                            </div>
+                            <div class="theory-item">
+                                <h4><span class="theory-icon">2</span> Axe projecteur</h4>
+                                <ul>
+                                    <li>Le vecteur $w$ choisit l’angle où les groupes sont les plus distincts.</li>
+                                </ul>
+                            </div>
+                            <div class="theory-item">
+                                <h4><span class="theory-icon">3</span> Espace latent</h4>
+                                <ul>
+                                    <li>On passe des pixels bruts vers un espace plus compact et plus utile.</li>
+                                </ul>
+                            </div>
+                            <div class="theory-item">
+                                <h4><span class="theory-icon">4</span> Information utile</h4>
+                                <ul>
+                                    <li>Le ratio garde ce qui discrimine et réduit le bruit interne.</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -282,12 +308,12 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                     </div>
                     <div class="result-card card-2">
                         <h3>Réduction</h3>
-                        <div class="big-number">-98.9%</div>
+                        <div class="big-number">98.9%</div>
                         <p class="small-text">784D → 9D dimensions</p>
                     </div>
                     <div class="result-card card-3">
                         <h3>Perte d'Info</h3>
-                        <div class="big-number">-2.3%</div>
+                        <div class="big-number">2.3%</div>
                         <p class="small-text">vs approche directe</p>
                     </div>
                     <div class="result-card card-4">
@@ -365,8 +391,37 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
             </div>
         </section>
 
-        <!-- SLIDE 9: CONFUSIONS PRINCIPALES -->
+        <!-- SLIDE 9: VISUALISATION 2D -->
         <section class="slide slide-10">
+            <div class="slide-content">
+                <h2 class="slide-title">📍 Visualisation LDA en 2D</h2>
+                <div class="lda2d-container">
+                    <div class="lda2d-chart">
+                        <div class="lda2d-axis axis-x"></div>
+                        <div class="lda2d-axis axis-y"></div>
+                        <div class="lda2d-chart-label">Projection sur les deux premiers axes discriminants</div>
+                        <div class="lda2d-point point-0" style="left: 16%; top: 62%;">0</div>
+                        <div class="lda2d-point point-1" style="left: 26%; top: 48%;">1</div>
+                        <div class="lda2d-point point-2" style="left: 36%; top: 36%;">2</div>
+                        <div class="lda2d-point point-3" style="left: 47%; top: 24%;">3</div>
+                        <div class="lda2d-point point-4" style="left: 58%; top: 58%;">4</div>
+                        <div class="lda2d-point point-5" style="left: 70%; top: 42%;">5</div>
+                        <div class="lda2d-point point-6" style="left: 24%; top: 74%;">6</div>
+                        <div class="lda2d-point point-7" style="left: 50%; top: 72%;">7</div>
+                        <div class="lda2d-point point-8" style="left: 77%; top: 66%;">8</div>
+                        <div class="lda2d-point point-9" style="left: 82%; top: 28%;">9</div>
+                    </div>
+                    <div class="lda2d-comment">
+                        <h3>Lecture rapide</h3>
+                        <p>Cette projection montre comment LDA regroupe les classes en gardant seulement l’information la plus discriminante.</p>
+                        <p class="highlight">Les zones proches indiquent les chiffres les plus difficiles à séparer, tandis que les amas bien distincts confirment la qualité de la projection.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 10: CONFUSIONS PRINCIPALES -->
+        <section class="slide slide-11">
             <div class="slide-content">
                 <h2 class="slide-title">🔍 Matrice de Confusion (Top Erreurs)</h2>
                 <div class="confusion-container">
@@ -401,8 +456,8 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
             </div>
         </section>
 
-        <!-- SLIDE 10: COMPARAISON DIRECTE -->
-        <section class="slide slide-11">
+        <!-- SLIDE 11: COMPARAISON DIRECTE -->
+        <section class="slide slide-12">
             <div class="slide-content">
                 <h2 class="slide-title">⚖️ Comparaison: Direct vs LDA</h2>
                 <div class="comparison-container">
@@ -452,8 +507,8 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
             </div>
         </section>
 
-        <!-- SLIDE 11: AVANTAGES LDA -->
-        <section class="slide slide-12">
+        <!-- SLIDE 12: AVANTAGES LDA -->
+        <section class="slide slide-13">
             <div class="slide-content">
                 <h2 class="slide-title">💡 Avantages Distinctifs de LDA</h2>
                 <div class="advantages-grid">
@@ -486,35 +541,6 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                         <div class="adv-icon">💾</div>
                         <h3>Léger</h3>
                         <p>Déploiement simple<br/>2KB vs 100MB</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SLIDE 12: COMPARAISON AVEC AUTRES -->
-        <section class="slide slide-13">
-            <div class="slide-content">
-                <h2 class="slide-title">🔄 LDA vs Autres Méthodes</h2>
-                <div class="other-comparison">
-                    <div class="other-method">
-                        <h3>LDA vs PCA</h3>
-                        <p class="win-lda">✅ LDA Gagne</p>
-                        <p>Supervisée + Optimisée pour classification</p>
-                    </div>
-                    <div class="other-method">
-                        <h3>LDA vs SVM</h3>
-                        <p class="win-lda">✅ LDA Gagne</p>
-                        <p>100x plus rapide, plus léger, pas de scalabilité problème</p>
-                    </div>
-                    <div class="other-method">
-                        <h3>LDA vs Deep Learning</h3>
-                        <p class="draw">⚖️ Dépend du contexte</p>
-                        <p>DL: 99% accuracy | LDA: 84.4% + léger + rapide</p>
-                    </div>
-                    <div class="other-method">
-                        <h3>LDA vs Random Forest</h3>
-                        <p class="win-lda">✅ LDA Gagne</p>
-                        <p>Réduction dimension + 100x plus rapide</p>
                     </div>
                 </div>
             </div>
@@ -553,49 +579,8 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
             </div>
         </section>
 
-        <!-- SLIDE 14: POINTS CLÉS -->
+        <!-- SLIDE 14: RÉSUMÉ EXÉCUTIF -->
         <section class="slide slide-15">
-            <div class="slide-content">
-                <h2 class="slide-title">🎯 8 Points Critiques à Retenir</h2>
-                <div class="key-points">
-                    <div class="key-point kp-1">
-                        <span class="kp-number">1</span>
-                        <p><strong>LDA</strong> = Supervised dimensionality reduction</p>
-                    </div>
-                    <div class="key-point kp-2">
-                        <span class="kp-number">2</span>
-                        <p><strong>Optimisée</strong> pour CLASSIFICATION</p>
-                    </div>
-                    <div class="key-point kp-3">
-                        <span class="kp-number">3</span>
-                        <p><strong>Mathématiquement</strong> rigoureuse</p>
-                    </div>
-                    <div class="key-point kp-4">
-                        <span class="kp-number">4</span>
-                        <p><strong>Performance:</strong> 84.4% accuracy avec 9D</p>
-                    </div>
-                    <div class="key-point kp-5">
-                        <span class="kp-number">5</span>
-                        <p><strong>Speed:</strong> 7x plus rapide</p>
-                    </div>
-                    <div class="key-point kp-6">
-                        <span class="kp-number">6</span>
-                        <p><strong>Interpretable:</strong> On VOIT les axes</p>
-                    </div>
-                    <div class="key-point kp-7">
-                        <span class="kp-number">7</span>
-                        <p><strong>Généralizable:</strong> 1000D+ → 10D</p>
-                    </div>
-                    <div class="key-point kp-8">
-                        <span class="kp-number">8</span>
-                        <p><strong>Limitations:</strong> Gaussienne, max C-1</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SLIDE 15: RÉSUMÉ EXÉCUTIF -->
-        <section class="slide slide-16">
             <div class="slide-content">
                 <h2 class="slide-title">📋 Résumé Exécutif</h2>
                 <div class="executive-summary">
@@ -617,8 +602,8 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
             </div>
         </section>
 
-        <!-- SLIDE 16: MERCI -->
-        <section class="slide slide-17">
+        <!-- SLIDE 15: MERCI -->
+        <section class="slide slide-16">
             <div class="slide-content">
                 <div class="thank-you-container">
                     <h1 class="thank-you-text">Merci! 🎓</h1>
@@ -636,7 +621,7 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
     <div class="controls">
         <button class="btn-prev" onclick="previousSlide()">← Précédent</button>
         <div class="slide-counter">
-            <span id="current-slide">1</span> / <span id="total-slides">17</span>
+            <span id="current-slide">1</span> / <span id="total-slides">16</span>
         </div>
         <button class="btn-next" onclick="nextSlide()">Suivant →</button>
     </div>

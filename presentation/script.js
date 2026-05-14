@@ -2,8 +2,40 @@
    GESTION DES SLIDES
    ============================================================================ */
 
+/**
+ * Configuration et données de la présentation (Source: SYNTHESE_LDA_MNIST.md)
+ */
+const CONFIG = {
+    totalSlides: 16,
+    varianceData: [60.2, 15.8, 10.5, 4.1, 2.3, 1.5, 1.4, 1.3, 0.8],
+    confusionData: [
+        [98, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+        [0, 97, 1, 0, 0, 0, 2, 0, 0, 0],
+        [0, 2, 96, 0, 0, 0, 0, 2, 0, 0],
+        [0, 0, 1, 80, 0, 1, 0, 0, 15, 0], // Erreur 3→8
+        [0, 0, 0, 0, 85, 0, 1, 0, 2, 12], // Erreur 4→9
+        [0, 1, 0, 1, 0, 96, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 1, 75, 0, 0, 23], // Erreur 6→9
+        [1, 0, 2, 0, 0, 0, 0, 97, 1, 0],
+        [3, 1, 0, 2, 0, 1, 1, 0, 96, 0],
+        [0, 1, 0, 2, 18, 0, 0, 1, 0, 78]  // Erreur 9→4
+    ],
+    colors: ['#1F77B4', '#FF7F0E', '#2CA02C', '#D62728', '#9467BD', '#8C564B', '#E377C2', '#7F7F7F', '#BCBD22', '#17BECF']
+};
+
+/**
+ * Utilitaire pour injecter des styles CSS dynamiquement
+ */
+function injectStyles(id, css) {
+    if (document.getElementById(id)) return;
+    const style = document.createElement('style');
+    style.id = id;
+    style.textContent = css;
+    document.head.appendChild(style);
+}
+
 let currentSlide = 1;
-const totalSlides = 17;
+const totalSlides = CONFIG.totalSlides;
 
 // Initialiser
 document.addEventListener('DOMContentLoaded', () => {
@@ -173,17 +205,29 @@ function showPipelineStep(stepNumber) {
 
 // Animation supplémentaire pour le pulse du node
 function initPipelineStyles() {
-    if (document.getElementById('pipeline-styles')) return; // Éviter duplicatas
-    
-    const style = document.createElement('style');
-    style.id = 'pipeline-styles';
-    style.textContent = `
+    injectStyles('variance-layout-fix', `
+        .slide-9 .variance-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .slide-9 .variance-bars {
+            padding-top: 34px;
+        }
+        .slide-9 .variance-info {
+            align-self: center;
+        }
+        .slide-9 .variance-bar:first-child .variance-label {
+            top: -22px;
+        }
+    `);
+    injectStyles('pipeline-styles', `
         @keyframes nodePulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
-        
         @keyframes cardFadeOutSlow {
             from {
                 opacity: 1;
@@ -194,8 +238,7 @@ function initPipelineStyles() {
                 transform: translateY(-10px) scale(0.95);
             }
         }
-    `;
-    document.head.appendChild(style);
+    `);
 }
 
 // Initialiser le pipeline avec l'étape 1 par défaut
@@ -330,25 +373,12 @@ document.querySelectorAll('.advantage-card').forEach((card) => {
 });
 
 // Ajouter les animations CSS manquantes au document
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes cardPulse {
-        0%, 100% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); }
-        50% { box-shadow: 0 15px 40px rgba(255, 127, 14, 0.3); }
-    }
-    
-    @keyframes flipCard {
-        0% { transform: rotateY(0deg); }
-        50% { transform: rotateY(10deg); }
-        100% { transform: rotateY(0deg); }
-    }
-    
-    @keyframes cardBounce {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
-`;
-document.head.appendChild(style);
+// Ajouter les animations CSS manquantes au document (utilisant injectStyles)
+injectStyles('card-animations', `
+    @keyframes cardPulse { 0%, 100% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); } 50% { box-shadow: 0 15px 40px rgba(255, 127, 14, 0.3); } }
+    @keyframes flipCard { 0% { transform: rotateY(0deg); } 50% { transform: rotateY(10deg); } 100% { transform: rotateY(0deg); } }
+    @keyframes cardBounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+`);
 
 // Hover sur les barres de variance
 document.querySelectorAll('.variance-bar').forEach((bar) => {
@@ -389,15 +419,13 @@ document.querySelectorAll('.key-point').forEach((point) => {
 });
 
 // Ajouter animation spin
-const spinStyle = document.createElement('style');
-spinStyle.textContent = `
-    @keyframes spin {
-        0% { transform: rotateZ(0deg) scale(1); }
-        50% { transform: rotateZ(5deg) scale(1.02); }
-        100% { transform: rotateZ(0deg) scale(1); }
-    }
-`;
-document.head.appendChild(spinStyle);
+injectStyles('spin-animation', `
+@keyframes spin {
+    0% { transform: rotateZ(0deg) scale(1); }
+    50% { transform: rotateZ(5deg) scale(1.02); }
+    100% { transform: rotateZ(0deg) scale(1); }
+}
+`);
 
 /* ============================================================================
    ANIMATION DES ÉLÉMENTS AVEC SCROLL
@@ -690,14 +718,13 @@ function animateResultsCounters() {
 
 function initVarianceBars() {
     // Données réelles de la variance
-    const varianceData = [60.2, 15.8, 10.5, 4.1, 2.3, 1.5, 1.4, 1.3, 0.8];
+    const varianceData = CONFIG.varianceData;
     const maxVariance = Math.max(...varianceData);
     
     document.querySelectorAll('.variance-bar').forEach((bar, index) => {
         if (index < varianceData.length) {
-            const percentage = (varianceData[index] / maxVariance) * 100;
-            const colors = ['#1F77B4', '#FF7F0E', '#2CA02C', '#D62728', '#9467BD', '#8C564B', '#E377C2', '#7F7F7F', '#BCBD22'];
-            bar.style.background = colors[index] || '#FF7F0E';
+            const percentage = (varianceData[index] / maxVariance) * 92;
+            bar.style.background = CONFIG.colors[index] || '#FF7F0E';
             bar.style.setProperty('--height', percentage + '%');
             bar.style.height = '0';  // Démarre à 0 pour l'animation
         }
@@ -711,9 +738,9 @@ const varianceObserver = new IntersectionObserver((entries) => {
             // Lancer l'animation des barres
             setTimeout(() => {
                 document.querySelectorAll('.variance-bar').forEach((bar, index) => {
-                    const varianceData = [60.2, 15.8, 10.5, 4.1, 2.3, 1.5, 1.4, 1.3, 0.8];
-                    const maxVariance = 60.2;
-                    const percentage = (varianceData[index] / maxVariance) * 100;
+                    const varianceData = CONFIG.varianceData;
+                    const maxVariance = Math.max(...varianceData);
+                    const percentage = (varianceData[index] / maxVariance) * 92;
                     bar.style.height = percentage + '%';
                 });
             }, 100);
@@ -762,20 +789,7 @@ function updateScatterPlot() {
    ============================================================================ */
 
 function generateConfusionMatrix() {
-    // Matrice de confusion réelle (simplifié)
-    const confusionData = [
-        [98, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-        [0, 97, 1, 0, 0, 0, 2, 0, 0, 0],
-        [0, 2, 96, 0, 0, 0, 0, 2, 0, 0],
-        [0, 0, 1, 80, 0, 1, 0, 0, 15, 0], // Erreur 3→8 (15)
-        [0, 0, 0, 0, 85, 0, 1, 0, 2, 12], // Erreur 4→9 (12)
-        [0, 1, 0, 1, 0, 96, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 1, 75, 0, 0, 23], // Erreur 6→9 (23)
-        [1, 0, 2, 0, 0, 0, 0, 97, 1, 0],
-        [3, 1, 0, 2, 0, 1, 1, 0, 96, 0],
-        [0, 1, 0, 2, 18, 0, 0, 1, 0, 78]  // Erreur 9→4 (18)
-    ];
-    
+    const confusionData = CONFIG.confusionData;
     const matrixContainer = document.querySelector('.confusion-matrix');
     if (!matrixContainer) return;
     
@@ -797,8 +811,7 @@ function generateConfusionMatrix() {
         for (let j = 0; j < 10; j++) {
             const value = confusionData[i][j];
             const opacity = value / maxValue;
-            const colors = ['#1F77B4', '#FF7F0E', '#2CA02C', '#D62728', '#9467BD', '#8C564B', '#E377C2', '#7F7F7F', '#BCBD22', '#17BECF'];
-            const bgColor = colors[i];
+            const bgColor = CONFIG.colors[i];
             
             html += `<div class="matrix-cell" style="background: ${bgColor}; opacity: ${0.2 + opacity * 0.8};" title="${i} → ${j}: ${value} fois">${value}</div>`;
         }
