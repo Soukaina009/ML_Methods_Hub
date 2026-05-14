@@ -576,18 +576,18 @@ buttons.forEach((btn) => {
    ============================================================================ */
 
 function generateQRCode() {
-    const qrContainer = document.getElementById('qr-code');
+    const qrContainer = document.getElementById('qrcode');
     if (!qrContainer) return;
     
-    // URL du site (localhost)
-    const url = window.location.href.split('?')[0];
+    // URL permanente du site GitHub Pages
+    const url = 'https://Soukaina009.github.io/ML_Methods_Hub/';
     
     // Générer le QR code
     try {
         new QRCode(qrContainer, {
             text: url,
-            width: 120,
-            height: 120,
+            width: 140,
+            height: 140,
             colorDark: '#1A1A1A',
             colorLight: '#FFFFFF',
             correctLevel: QRCode.CorrectLevel.H
