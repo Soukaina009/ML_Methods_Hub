@@ -399,22 +399,78 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                     <div class="lda2d-chart">
                         <div class="lda2d-axis axis-x"></div>
                         <div class="lda2d-axis axis-y"></div>
-                        <div class="lda2d-chart-label">Projection sur les deux premiers axes discriminants</div>
-                        <div class="lda2d-point point-0" style="left: 16%; top: 62%;">0</div>
-                        <div class="lda2d-point point-1" style="left: 26%; top: 48%;">1</div>
-                        <div class="lda2d-point point-2" style="left: 36%; top: 36%;">2</div>
-                        <div class="lda2d-point point-3" style="left: 47%; top: 24%;">3</div>
-                        <div class="lda2d-point point-4" style="left: 58%; top: 58%;">4</div>
-                        <div class="lda2d-point point-5" style="left: 70%; top: 42%;">5</div>
-                        <div class="lda2d-point point-6" style="left: 24%; top: 74%;">6</div>
-                        <div class="lda2d-point point-7" style="left: 50%; top: 72%;">7</div>
-                        <div class="lda2d-point point-8" style="left: 77%; top: 66%;">8</div>
-                        <div class="lda2d-point point-9" style="left: 82%; top: 28%;">9</div>
+                        <div class="lda2d-axis-label axis-x-label">LDA axis 1 (23.9% variance)</div>
+                        <div class="lda2d-axis-label axis-y-label">LDA axis 2 (16.0% variance)</div>
+                        
+                        <!-- Clusters of points for each digit -->
+                        <div class="lda2d-cluster cluster-0">
+                            <div class="lda2d-point point-0" style="left: 12%; top: 68%;"></div>
+                            <div class="lda2d-point point-0" style="left: 14%; top: 66%;"></div>
+                            <div class="lda2d-point point-0" style="left: 16%; top: 62%;"></div>
+                            <div class="lda2d-point point-0" style="left: 18%; top: 65%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-1">
+                            <div class="lda2d-point point-1" style="left: 22%; top: 48%;"></div>
+                            <div class="lda2d-point point-1" style="left: 24%; top: 46%;"></div>
+                            <div class="lda2d-point point-1" style="left: 26%; top: 50%;"></div>
+                            <div class="lda2d-point point-1" style="left: 28%; top: 48%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-2">
+                            <div class="lda2d-point point-2" style="left: 32%; top: 36%;"></div>
+                            <div class="lda2d-point point-2" style="left: 34%; top: 38%;"></div>
+                            <div class="lda2d-point point-2" style="left: 36%; top: 40%;"></div>
+                            <div class="lda2d-point point-2" style="left: 38%; top: 37%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-3">
+                            <div class="lda2d-point point-3" style="left: 42%; top: 24%;"></div>
+                            <div class="lda2d-point point-3" style="left: 44%; top: 26%;"></div>
+                            <div class="lda2d-point point-3" style="left: 46%; top: 22%;"></div>
+                            <div class="lda2d-point point-3" style="left: 48%; top: 25%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-4">
+                            <div class="lda2d-point point-4" style="left: 54%; top: 56%;"></div>
+                            <div class="lda2d-point point-4" style="left: 56%; top: 58%;"></div>
+                            <div class="lda2d-point point-4" style="left: 58%; top: 60%;"></div>
+                            <div class="lda2d-point point-4" style="left: 60%; top: 57%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-5">
+                            <div class="lda2d-point point-5" style="left: 66%; top: 40%;"></div>
+                            <div class="lda2d-point point-5" style="left: 68%; top: 42%;"></div>
+                            <div class="lda2d-point point-5" style="left: 70%; top: 44%;"></div>
+                            <div class="lda2d-point point-5" style="left: 72%; top: 41%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-6">
+                            <div class="lda2d-point point-6" style="left: 20%; top: 72%;"></div>
+                            <div class="lda2d-point point-6" style="left: 22%; top: 74%;"></div>
+                            <div class="lda2d-point point-6" style="left: 24%; top: 76%;"></div>
+                            <div class="lda2d-point point-6" style="left: 26%; top: 73%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-7">
+                            <div class="lda2d-point point-7" style="left: 46%; top: 70%;"></div>
+                            <div class="lda2d-point point-7" style="left: 48%; top: 72%;"></div>
+                            <div class="lda2d-point point-7" style="left: 50%; top: 74%;"></div>
+                            <div class="lda2d-point point-7" style="left: 52%; top: 71%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-8">
+                            <div class="lda2d-point point-8" style="left: 73%; top: 64%;"></div>
+                            <div class="lda2d-point point-8" style="left: 75%; top: 66%;"></div>
+                            <div class="lda2d-point point-8" style="left: 77%; top: 68%;"></div>
+                            <div class="lda2d-point point-8" style="left: 79%; top: 65%;"></div>
+                        </div>
+                        <div class="lda2d-cluster cluster-9">
+                            <div class="lda2d-point point-9" style="left: 78%; top: 26%;"></div>
+                            <div class="lda2d-point point-9" style="left: 80%; top: 28%;"></div>
+                            <div class="lda2d-point point-9" style="left: 82%; top: 30%;"></div>
+                            <div class="lda2d-point point-9" style="left: 84%; top: 27%;"></div>
+                        </div>
+                        
+                        <div class="lda2d-origin"></div>
                     </div>
                     <div class="lda2d-comment">
-                        <h3>Lecture rapide</h3>
-                        <p>Cette projection montre comment LDA regroupe les classes en gardant seulement l’information la plus discriminante.</p>
-                        <p class="highlight">Les zones proches indiquent les chiffres les plus difficiles à séparer, tandis que les amas bien distincts confirment la qualité de la projection.</p>
+                        <h3>🔍 Interprétation</h3>
+                        <p><strong>Axes:</strong> Les deux premières composantes LDA capturent 39.9% de la variance discriminante.</p>
+                        <p><strong>Clusters:</strong> Chaque couleur représente un chiffre (0-9). Les amas bien séparés montrent une bonne discrimination.</p>
+                        <p class="highlight">→ Les zones proches (ex: 3 et 5) indiquent des classes difficiles à séparer en 2D seul.</p>
                     </div>
                 </div>
             </div>

@@ -1047,6 +1047,45 @@ body {
 .point-8 { background: var(--color-8); }
 .point-9 { background: var(--color-9); }
 
+.lda2d-axis-label {
+    position: absolute;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    z-index: 2;
+}
+
+.lda2d-axis-label.axis-x-label {
+    bottom: 20px;
+    right: 50px;
+    transform: translateX(10px);
+}
+
+.lda2d-axis-label.axis-y-label {
+    left: 8px;
+    top: 35px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+}
+
+.lda2d-cluster {
+    position: relative;
+}
+
+.lda2d-origin {
+    position: absolute;
+    left: 55px;
+    bottom: 55px;
+    width: 8px;
+    height: 8px;
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 50%;
+    z-index: 2;
+    transform: translate(-4px, 4px);
+}
+
 .lda2d-comment {
     background: linear-gradient(135deg, rgba(255, 127, 14, 0.08), rgba(44, 160, 44, 0.08));
     padding: 32px;
