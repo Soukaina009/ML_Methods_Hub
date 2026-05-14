@@ -1,23 +1,18 @@
 # LDA MNIST Analysis
 
-Repository minimal pour la version finale du projet LDA sur MNIST.
+Minimal repository for the final version of the LDA project on the MNIST dataset.
 
-## Contenu conservé
+## Project Contents
 
-- [notebooks/LDA_MNIST_Analysis.ipynb](notebooks/LDA_MNIST_Analysis.ipynb) : notebook final d’analyse
-- [docs/index.html](docs/index.html) : présentation web publiée
-- [docs/script.js](docs/script.js) et [docs/style.css](docs/style.css) : logique et style de la présentation
+- [notebooks/LDA_MNIST_Analysis.ipynb](notebooks/LDA_MNIST_Analysis.ipynb) : final analysis notebook
+- [docs/index.html](docs/index.html) : published web presentation
+- [docs/script.js](docs/script.js) and [docs/style.css](docs/style.css) : presentation logic and style
 
-## Accès à la présentation
+## Accessing the Presentation
 
-- En ligne: https://soukaina009.github.io/ML_Methods_Hub/
-- En local: servir le dossier `docs/` avec un serveur HTTP simple
+- Online: https://soukaina009.github.io/ML_Methods_Hub/
+- Local: serve the `docs/` folder with a simple HTTP server
 
 ```bash
 cd docs
 python -m http.server 8000
-```
-
-## Résumé
-
-La présentation explique l’Analyse Discriminante Linéaire appliquée à MNIST, avec la projection en 2D, les résultats de classification et les limites de la méthode.
