@@ -2451,7 +2451,7 @@ body {
    QR CODE CONTAINER
    ============================================================================ */
 .qr-code-container {
-    position: absolute;
+    position: fixed;
     bottom: 30px;
     right: 30px;
     display: flex;
@@ -2464,7 +2464,7 @@ body {
     border: 2px solid rgba(255, 127, 14, 0.3);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     animation: qrCodeFadeIn 1s ease-out 0.5s backwards;
-    z-index: 100;
+    z-index: 10000;
 }
 
 @keyframes qrCodeFadeIn {
