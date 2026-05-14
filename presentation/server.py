@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 # Configuration
-HOST = '0.0.0.0'  # Écoute sur toutes les interfaces pour une meilleure compatibilité
+HOST = '127.0.0.1'  # Utilisation de l'adresse locale standard
 START_PORT = 8000
 
 # Obtenir le répertoire courant
@@ -31,8 +31,11 @@ class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     """Handler personnalisé pour servir les fichiers"""
     
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=str(SCRIPT_DIR), **kwargs)
-    
+        # Assure la compatibilité avec les versions de Python < 3.7
+        if 'directory' not in kwargs:
+            kwargs['directory'] = str(SCRIPT_DIR)
+        super().__init__(*args, **kwargs)
+
     def end_headers(self):
         """Ajouter les headers CORS et cache"""
         self.send_header('Access-Control-Allow-Origin', '*')
@@ -55,6 +58,7 @@ def main():
     """Démarrer le serveur"""
     os.chdir(SCRIPT_DIR)
 
+    socketserver.TCPServer.allow_reuse_address = True
     port = START_PORT
     while True:
         try:
