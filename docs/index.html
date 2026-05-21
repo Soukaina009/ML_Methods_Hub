@@ -267,27 +267,27 @@ cm = confusion_matrix(y_test, y_pred)  <span class="py-comment"># Matrice de con
                         </div>
                         <div class="theory-details-grid">
                             <div class="theory-item">
-                                <h4><span class="theory-icon">1</span> Discrimination</h4>
+                                <h4><span class="theory-icon">1</span> Fonction d'optimisation</h4>
                                 <ul>
-                                    <li>Le ratio maximise la séparation entre les classes.</li>
+                                    <li>Le ratio J(w) est la fonction objectif que LDA cherche à maximiser pour trouver la direction de projection offrant la meilleure séparation possible.</li>
                                 </ul>
                             </div>
                             <div class="theory-item">
-                                <h4><span class="theory-icon">2</span> Axe projecteur</h4>
+                                <h4><span class="theory-icon">2</span> Maximisation de l'écart inter-classes</h4>
                                 <ul>
-                                    <li>Le vecteur $w$ choisit l’angle où les groupes sont les plus distincts.</li>
+                                    <li>Le numérateur Sb mesure la dispersion entre classes ; l'objectif est d'éloigner au maximum les centres de chaque catégorie les uns des autres.</li>
                                 </ul>
                             </div>
                             <div class="theory-item">
-                                <h4><span class="theory-icon">3</span> Espace latent</h4>
+                                <h4><span class="theory-icon">3</span> Minimisation de la variance intra-classe</h4>
                                 <ul>
-                                    <li>On passe des pixels bruts vers un espace plus compact et plus utile.</li>
+                                    <li>Le dénominateur Sw représente la dispersion interne de chaque groupe ; on veut que les points d'une même classe soient les plus compacts possible.</li>
                                 </ul>
                             </div>
                             <div class="theory-item">
-                                <h4><span class="theory-icon">4</span> Information utile</h4>
+                                <h4><span class="theory-icon">4</span> Discrimination maximale</h4>
                                 <ul>
-                                    <li>Le ratio garde ce qui discrimine et réduit le bruit interne.</li>
+                                    <li>Optimiser ce rapport, un grand numérateur sur un petit dénominateur, garantit une séparation nette entre les étiquettes.</li>
                                 </ul>
                             </div>
                         </div>
