@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayes, LDA, QDA - Une histoire simple</title>
+    <meta name="description" content="Une page locale moderne pour comprendre Bayes, LDA, QDA et les méthodes de statistical learning comme une histoire simple et visuelle.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-orb orb-c"></div>
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-badge">ML</div>
+            <div>
+                <p class="eyebrow">Statistical Learning</p>
+                <h1>De Bayes à LDA/QDA</h1>
+            </div>
+        </div>
+        <div class="nav-pills" aria-label="Navigation de la présentation">
+            <button class="nav-pill active" type="button" data-slide="0">Bayes</button>
+            <button class="nav-pill" type="button" data-slide="1">Gaussien</button>
+            <button class="nav-pill" type="button" data-slide="2">Frontière</button>
+            <button class="nav-pill" type="button" data-slide="3">LDA / QDA</button>
+            <button class="nav-pill" type="button" data-slide="4">Autres</button>
+        </div>
+        <div class="header-actions">
+            <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle theme">🌙</button>
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="hero card">
+            <div class="hero-copy">
+                <span class="kicker">Une histoire simple, directe et visuelle</span>
+                <h2>Comment une machine choisit une classe sans magie</h2>
+                <p class="lead">
+                    On part de la règle de Bayes, puis on suit une seule ligne logique:
+                    <strong>Bayes → likelihood → posterior → décision → LDA/QDA</strong>.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn primary" id="prevSlide" type="button">← Précédent</button>
+                    <button class="btn ghost" id="nextSlide" type="button">Suivant →</button>
+                    <button class="btn ghost" id="toggleStory" type="button">Mode histoire</button>
+                </div>
+                <div class="stats">
+                    <article><strong>1</strong><span>Bayes</span></article>
+                    <article><strong>2</strong><span>nuages gaussiens</span></article>
+                    <article><strong>3</strong><span>frontière de décision</span></article>
+                    <article><strong>4</strong><span>méthodes voisines</span></article>
+                </div>
+            </div>
+            <div class="hero-panel">
+                <div class="poster">
+                    <div class="poster-head">
+                        <span class="chip accent">Bayes</span>
+                        <span class="chip">Decision theory</span>
+                    </div>
+                    <div class="poster-formula">
+                        <p class="formula-label">Fil logique</p>
+                        <p class="formula">Bayes → P(x|y) × P(y) → frontière → LDA / QDA</p>
+                    </div>
+                    <div class="score-list">
+                        <div class="score-row"><span>Classe A</span><i style="width: 76%"></i><b>0.76</b></div>
+                        <div class="score-row"><span>Classe B</span><i style="width: 64%"></i><b>0.64</b></div>
+                        <div class="score-row"><span>Classe C</span><i style="width: 39%"></i><b>0.39</b></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-shell card" id="storyShell">
+            <div class="story-controls">
+                <button class="slide-arrow" id="slidePrev" type="button" aria-label="Aller à la slide précédente">←</button>
+                <div class="slide-indicator"><span id="slideCurrent">1</span><span>/</span><span id="slideTotal">5</span></div>
+                <button class="slide-arrow" id="slideNext" type="button" aria-label="Aller à la slide suivante">→</button>
+            </div>
+
+            <div class="story-viewport" aria-label="Présentation horizontale Bayes, LDA, QDA">
+                <div class="story-track" id="storyTrack">
+                    <section class="story-panel panel-bayes" id="bayes">
+                        <div class="section-head">
+                            <span class="section-tag">Chapitre 1</span>
+                            <h3>Bayes: le détective des probabilités</h3>
+                        </div>
+                        <div class="grid-2">
+                            <div class="text-box">
+                                <p>
+                                    Imagine un détective. L’image <strong>x</strong> est l’indice, et chaque classe <strong>k</strong> est un suspect.
+                                    Bayes demande: quelle classe rend cet indice le plus plausible ?
+                                </p>
+                                <ul>
+                                    <li><strong>P(y = k)</strong>: l’a priori, ce qu’on croit avant de voir l’image.</li>
+                                    <li><strong>P(x | y = k)</strong>: la vraisemblance, ce qu’on observe si la classe k est vraie.</li>
+                                    <li><strong>P(x)</strong>: la preuve totale, identique pour toutes les classes, donc on la compare rarement directement.</li>
+                                </ul>
+                            </div>
+                            <div class="formula-box">
+                                <span class="section-tag">Idée utile</span>
+                                <div class="big-formula">score(k) = P(x | y = k) × P(y = k)</div>
+                                <p>On compare les scores, puis on garde la classe qui gagne.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="story-panel panel-gauss" id="gauss">
+                        <div class="section-head">
+                            <span class="section-tag">Chapitre 2</span>
+                            <h3>Le monde gaussien: chaque classe devient un nuage</h3>
+                        </div>
+                        <div class="grid-2 aligned">
+                            <div class="text-box">
+                                <p>
+                                    L’idée forte du statistical learning ici est simple: les points d’une même classe se ressemblent.
+                                    On les résume avec une moyenne <strong>μ</strong> et une covariance <strong>Σ</strong>.
+                                </p>
+                                <p>
+                                    La moyenne dit où le nuage est centré. La covariance dit comment il s’étale, s’incline et se déforme.
+                                </p>
+                            </div>
+                            <div class="cloud-scene" aria-label="Nuages gaussiens">
+                                <div class="axis x"></div>
+                                <div class="axis y"></div>
+                                <div class="cloud cloud-a"><span>A</span></div>
+                                <div class="cloud cloud-b"><span>B</span></div>
+                                <div class="cloud cloud-c"><span>C</span></div>
+                                <div class="dot dot-a"></div>
+                                <div class="dot dot-b"></div>
+                                <div class="dot dot-c"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="story-panel panel-boundary" id="boundary">
+                        <div class="section-head">
+                            <span class="section-tag">Chapitre 3</span>
+                            <h3>La frontière: là où deux classes sont à égalité</h3>
+                        </div>
+                        <div class="grid-2">
+                            <div class="boundary-panel">
+                                <p>
+                                    Une frontière de décision est l’endroit où les scores de deux classes deviennent égaux.
+                                    Dès que le score de A dépasse celui de B, on bascule de l’autre côté.
+                                </p>
+                                <div class="boundary-visual">
+                                    <span class="label left">classe A</span>
+                                    <span class="label right">classe B</span>
+                                    <div class="curve"></div>
+                                    <div class="boundary-point"></div>
+                                </div>
+                            </div>
+                            <div class="formula-box">
+                                <span class="section-tag">Règle</span>
+                                <div class="big-formula">Choisir la classe avec le score le plus élevé</div>
+                                <p>
+                                    Le discriminant sert donc à comparer des scores et à dessiner une séparation aussi juste que possible.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="story-panel panel-compare" id="compare">
+                        <div class="section-head">
+                            <span class="section-tag">Chapitre 4</span>
+                            <h3>Le cœur du sujet: pourquoi LDA et QDA existent ?</h3>
+                        </div>
+                        <div class="controls">
+                            <button class="toggle active" data-mode="lda" type="button">LDA</button>
+                            <button class="toggle" data-mode="qda" type="button">QDA</button>
+                        </div>
+                        <div class="grid-2 compare-grid">
+                            <div class="compare-panel">
+                                <h4 id="modeTitle">LDA: même forme pour toutes les classes</h4>
+                                <div class="shape linear" id="modeShape" aria-hidden="true"></div>
+                                <ul id="modePoints">
+                                    <li>On suppose que toutes les classes partagent la même covariance Σ.</li>
+                                    <li>Les termes quadratiques s’annulent dans le discriminant.</li>
+                                    <li>La frontière devient linéaire: droite, hyperplan, séparation simple.</li>
+                                    <li>Avantage: robuste, stable, efficace quand les données sont limitées.</li>
+                                </ul>
+                            </div>
+                            <div class="compare-panel alt">
+                                <p class="section-tag">Ce que ça change</p>
+                                <div class="formula-stack" id="modeFormulas">
+                                    <div class="formula-line">LDA: g_k(x) = x^TΣ^-1μ_k - 1/2 μ_k^TΣ^-1μ_k + log π_k</div>
+                                    <div class="formula-line subtle">Une seule géométrie pour tous les nuages.</div>
+                                </div>
+                                <p class="summary" id="modeSummary">
+                                    LDA coupe l’espace avec une ligne simple parce qu’elle impose la même géométrie pour toutes les classes.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="story-panel panel-others" id="others">
+                        <div class="section-head">
+                            <span class="section-tag">Chapitre 5</span>
+                            <h3>Où se placent les autres méthodes ?</h3>
+                        </div>
+                        <div class="methods-grid">
+                            <article><h4>Naive Bayes</h4><p>Très proche de Bayes, mais on suppose souvent l’indépendance entre variables.</p></article>
+                            <article><h4>LDA</h4><p>Bayes + gaussiennes + même covariance. Version linéaire, compacte et interprétable.</p></article>
+                            <article><h4>QDA</h4><p>Bayes + gaussiennes + covariance différente par classe. Plus flexible, plus coûteux.</p></article>
+                            <article><h4>Logistic Regression</h4><p>Apprend directement une frontière sans modéliser la distribution de x.</p></article>
+                            <article><h4>SVM</h4><p>Cherche la marge la plus large entre les classes, parfois avec noyaux.</p></article>
+                            <article><h4>PCA</h4><p>Réduit la dimension sans utiliser les labels. Utile, mais ce n’est pas un classifieur.</p></article>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <section class="card story-section end" id="summary">
+            <div class="section-head">
+                <span class="section-tag">Synthèse</span>
+                <h3>Le fil logique à retenir</h3>
+            </div>
+            <ol class="summary-list">
+                <li>Bayes compare des probabilités conditionnelles pour choisir une classe.</li>
+                <li>Si chaque classe est modélisée comme une gaussienne, on obtient un cadre interprétable.</li>
+                <li>Si les covariances sont partagées, la frontière est linéaire: c’est LDA.</li>
+                <li>Si les covariances diffèrent selon la classe, la frontière devient quadratique: c’est QDA.</li>
+                <li>Les autres méthodes se positionnent autour de cette idée: modéliser la distribution ou apprendre la frontière directement.</li>
+            </ol>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
