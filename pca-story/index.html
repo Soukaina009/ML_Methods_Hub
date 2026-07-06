@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCA sur MNIST - Origine, Maths et Comparaison</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="presentation-shell">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-dot"></span>
+                <span>PCA Story</span>
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-line"><span id="progressBar"></span></div>
+                <div class="slide-indicator"><span id="currentSlide">1</span>/<span id="totalSlides">10</span></div>
+            </div>
+            <div class="controls">
+                <button class="nav-btn" onclick="previousSlide()">←</button>
+                <button class="nav-btn nav-btn-primary" onclick="nextSlide()">→</button>
+            </div>
+        </header>
+
+        <main class="slides">
+            <section class="slide slide-1 active">
+                <div class="slide-grid hero-grid">
+                    <div class="hero-copy">
+                        <span class="eyebrow">Machine Learning • Data Analysis • Visualization</span>
+                        <h1>Principal Component Analysis</h1>
+                        <h2>Comprendre l'origine, la règle mathématique et le lien réel avec Bayes</h2>
+                        <p class="hero-text">
+                            Une présentation visuelle, simple et moderne pour comprendre pourquoi PCA existe,
+                            ce qu’elle optimise, comment elle s’écrit mathématiquement et comment elle se compare à LDA/QDA.
+                        </p>
+                        <div class="hero-tags">
+                            <span>Variance</span>
+                            <span>Covariance</span>
+                            <span>Eigenvectors</span>
+                            <span>Compression</span>
+                        </div>
+                    </div>
+                    <div class="hero-art">
+                        <div class="orbit orbit-1"></div>
+                        <div class="orbit orbit-2"></div>
+                        <div class="orbit orbit-3"></div>
+                        <div class="core-card glass">
+                            <div class="core-kicker">Idée centrale</div>
+                            <div class="core-number">784 pixels → 2 composantes</div>
+                            <p>Exemple simple : PCA projette les images sur quelques axes pour garder la structure globale avec moins de dimensions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide slide-2">
+                <div class="slide-stack">
+                    <div class="section-head">
+                        <span class="section-badge">Pourquoi PCA ?</span>
+                        <h2>Le problème de départ</h2>
+                    </div>
+                    <div class="card-grid three-up">
+                        <article class="info-card accent-a">
+                            <div class="card-icon">784</div>
+                            <h3>Haute dimension</h3>
+                            <p>Chaque image MNIST a 28×28 pixels, soit 784 variables à traiter simultanément.</p>
+                        </article>
+                        <article class="info-card accent-b">
+                            <div class="card-icon">⏱</div>
+                            <h3>Coût élevé</h3>
+                            <p>Plus de variables implique plus de calcul, plus de mémoire et plus de bruit potentiel.</p>
+                        </article>
+                        <article class="info-card accent-c">
+                            <div class="card-icon">👁</div>
+                            <h3>Impossible à visualiser</h3>
+                            <p>Sans projection, il est difficile d'interpréter visuellement un espace à 784 dimensions.</p>
+                        </article>
+                    </div>
+                    <div class="wide-note glass">
+                        <strong>Objectif PCA :</strong> garder les directions qui portent le plus de variance utile, puis compresser et explorer plus facilement.
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide slide-3">
+                <div class="section-head">
+                    <span class="section-badge">Origine</span>
+                    <h2>D'où vient PCA ?</h2>
+                </div>
+                <div class="split-layout">
+                    <div class="panel glass">
+                        <h3>Karl Pearson, 1901</h3>
+                        <p>
+                            La PCA a été pensée pour un problème purement géométrique : résumer un nuage de points en moins de dimensions
+                            sans perdre sa forme globale ni sa dispersion.
+                        </p>
+                        <ul class="check-list">
+                            <li>PCA est non supervisée : elle ne connaît pas les labels.</li>
+                            <li>Elle ne voit que des points dans un espace de grande dimension.</li>
+                            <li>Elle cherche la direction où le nuage est le plus étiré.</li>
+                        </ul>
+                    </div>
+                    <div class="panel glass">
+                        <h3>Les deux bases mathématiques</h3>
+                        <p>
+                            La PCA repose sur deux idées simples : maximiser la variance projetée et trouver ces axes grâce à la covariance.
+                        </p>
+                        <div class="flow-diagram">
+                            <div class="flow-box bayes">Nuage centré</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-box lda">Covariance globale</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-box pca active">Axes PCA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-strip">
+                    <span>Variance maximale</span>
+                    <span>Vecteurs propres</span>
+                    <span>Réduction de dimension</span>
+                </div>
+            </section>
+
+            <section class="slide slide-4">
+                <div class="section-head">
+                    <span class="section-badge">Maths</span>
+                    <h2>La règle mathématique de PCA</h2>
+                </div>
+                <div class="math-layout">
+                    <div class="formula-card glass">
+                        <h3>Étape 1: centrer les données</h3>
+                        <div class="formula">X<sub>c</sub> = X - μ</div>
+                        <p>On retire la moyenne pour travailler autour de zéro.</p>
+                    </div>
+                    <div class="formula-card glass">
+                        <h3>Étape 2: covariance</h3>
+                        <div class="formula">Σ = (1 / n) X<sub>c</sub><sup>T</sup> X<sub>c</sub></div>
+                        <p>La covariance décrit comment les variables bougent ensemble.</p>
+                    </div>
+                    <div class="formula-card glass highlight">
+                        <h3>Étape 3: vecteurs propres</h3>
+                        <div class="formula">Σv = λv</div>
+                        <p>Les plus grandes valeurs propres donnent les directions les plus informatives.</p>
+                    </div>
+                </div>
+                <div class="objective-bar glass">
+                    <div class="objective-title">Objectif d'optimisation</div>
+                    <div class="objective-formula">maximize Var(w<sup>T</sup>X) subject to ||w|| = 1</div>
+                </div>
+            </section>
+
+            <section class="slide slide-5">
+                <div class="section-head">
+                    <span class="section-badge">Intuition</span>
+                    <h2>Que fait PCA visuellement ?</h2>
+                </div>
+                <div class="diagram-grid">
+                    <div class="diagram-card glass">
+                        <h3>Nuage original</h3>
+                        <div class="mini-scatter original">
+                            <span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <p>Les points sont étalés dans plusieurs directions.</p>
+                    </div>
+                    <div class="diagram-card glass">
+                        <h3>Axe principal</h3>
+                        <div class="principal-axis">
+                            <div class="axis-line"></div>
+                            <div class="axis-points">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                        <p>On cherche la direction qui maximise la variance.</p>
+                    </div>
+                    <div class="diagram-card glass">
+                        <h3>Projection finale</h3>
+                        <div class="mini-scatter compressed">
+                            <span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <p>On réduit la dimension tout en gardant l'essentiel.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide slide-6">
+                <div class="section-head">
+                    <span class="section-badge">Élément clé du code</span>
+                    <h2>Projection PCA — code et visualisation</h2>
+                </div>
+
+                <div class="code-grid slide-6-code-grid">
+                    <article class="code-card glass code-centered">
+                        <div class="code-title">Projection PCA pour visualisation 2D</div>
+                        <pre><code>from sklearn.decomposition import PCA
+
+pca = PCA(n_components=2)
+X_2d = pca.fit_transform(X_scaled)
+print(pca.explained_variance_ratio_)</code></pre>
+                    </article>
+                </div>
+
+                <article class="code-card glass mt-small code-line-guide">
+                    <div class="code-title">Explication du code</div>
+                    <div class="line-row">
+                        <div class="line-code"><code>X_2d = pca.fit_transform(X_scaled)</code></div>
+                        <p>L'utilisation de <code>X_scaled</code> est cruciale : la standardisation évite qu'une partie des pixels écrase le calcul de variance, et rend PCA plus juste.</p>
+                    </div>
+                    <div class="line-row">
+                        <div class="line-code"><code>pca = PCA(n_components=2)</code></div>
+                        <p>Le choix <code>n_components=2</code> est adapté à l'objectif ici : obtenir une visualisation graphique en 2D (scatter plot) claire.</p>
+                    </div>
+                    <div class="line-row">
+                        <div class="line-code"><code>print(pca.explained_variance_ratio_)</code></div>
+                        <p>Cette ligne apporte la justification scientifique : elle mesure la quantité d'information conservée par la projection.</p>
+                    </div>
+                </article>
+
+                <article class="code-card glass pca-preview-card mt-small">
+                    <div class="code-title">Visualisation 2D (issue du notebook)</div>
+                    <img class="pca-figure-img" src="assets/pca-latent-space-2d.png" alt="Projection PCA 2D train/test sur MNIST">
+                    <p class="plot-caption">Commentaire : la figure montre zones denses, chevauchements de classes et variance capturée sur PC1/PC2.</p>
+                </article>
+            </section>
+
+            <section class="slide slide-7">
+                <div class="section-head">
+                    <span class="section-badge">Seuil de variance</span>
+                    <h2>Fixer un seuil de variance (sélection automatique)</h2>
+                </div>
+
+                <div class="code-grid slide-6-code-grid">
+                    <article class="code-card glass code-centered">
+                        <div class="code-title">Garder 95% de l'information</div>
+                        <pre><code>from sklearn.decomposition import PCA
+
+pca = PCA(n_components=0.95)
+X_reduced = pca.fit_transform(X_scaled)
+
+print(f"Nombre d'axes retenus : {pca.n_components_}")</code></pre>
+                    </article>
+                </div>
+
+                <article class="code-card glass mt-small code-line-guide">
+                    <div class="code-title">Explication du code</div>
+                    <div class="line-row">
+                        <div class="line-code"><code>pca = PCA(n_components=0.95)</code></div>
+                        <p>Le paramètre <code>0.95</code> demande à Scikit-Learn de choisir automatiquement le nombre minimal d'axes qui conservent 95% de la variance totale.</p>
+                    </div>
+                    <div class="line-row">
+                        <div class="line-code"><code>X_reduced = pca.fit_transform(X_scaled)</code></div>
+                        <p>La projection se fait sur les axes retenus automatiquement, ce qui compresse le jeu de données tout en gardant le signal principal.</p>
+                    </div>
+                    <div class="line-row">
+                        <div class="line-code"><code>print(f"Nombre d'axes retenus : {pca.n_components_}")</code></div>
+                        <p>Cette sortie indique le compromis obtenu : on veut réduire fortement la dimension, mais sans dépasser la perte d'information fixée au départ.</p>
+                    </div>
+                </article>
+
+                <div class="wide-note glass">
+                    <strong>Commentaire :</strong> cette méthode est la plus utilisée en pratique quand on veut compresser pour entraîner plus vite, par exemple passer de 784 à environ 150 dimensions selon le seuil choisi.
+                </div>
+            </section>
+
+            <section class="slide slide-8">
+                <div class="section-head">
+                    <span class="section-badge">Utilité</span>
+                    <h2>Pourquoi utiliser PCA ?</h2>
+                </div>
+                <div class="benefit-grid">
+                    <div class="benefit-item"><span>⚡</span> Réduire la dimension</div>
+                    <div class="benefit-item"><span>🧹</span> Atténuer le bruit</div>
+                    <div class="benefit-item"><span>📉</span> Accélérer les modèles</div>
+                    <div class="benefit-item"><span>🧭</span> Visualiser les données</div>
+                    <div class="benefit-item"><span>🧠</span> Comprendre la structure globale</div>
+                    <div class="benefit-item"><span>📦</span> Résumer l’information</div>
+                </div>
+                <div class="big-stat glass">
+                    <div class="big-stat-number">784 → 2</div>
+                    <p>Une projection claire peut révéler la géométrie cachée des données.</p>
+                </div>
+            </section>
+
+            <section class="slide slide-9">
+                <div class="section-head">
+                    <span class="section-badge">Comparaison</span>
+                    <h2>PCA vs LDA / QDA</h2>
+                </div>
+                <div class="comparison-table glass">
+                    <div class="comparison-row head">
+                        <div>Méthode</div><div>Type</div><div>But</div><div>Labels ?</div><div>Résultat</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div>PCA</div><div>Non supervisée</div><div>Variance</div><div>Non</div><div>Axes principaux</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div>LDA</div><div>Supervisée</div><div>Séparation</div><div>Oui</div><div>Jusqu’à C-1 axes</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div>QDA</div><div>Supervisée</div><div>Frontières quadratiques</div><div>Oui</div><div>Modèle par classe</div>
+                    </div>
+                </div>
+                <div class="split-layout mt-small">
+                    <div class="panel glass">
+                        <h3>LDA / QDA</h3>
+                        <p>
+                            <strong>Origine bayésienne / probabiliste :</strong> "Je cherche à modéliser des cloches de probabilités
+                            pour tracer une frontière qui sépare mes classes."
+                        </p>
+                    </div>
+                    <div class="panel glass">
+                        <h3>PCA</h3>
+                        <p>
+                            <strong>Origine géométrique / algébrique :</strong> "Je m'en fiche des classes. Je regarde la forme globale
+                            de mon nuage de points et je cherche l'axe de rotation qui préserve le plus d'étalement (de variance)."
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide slide-10">
+                <div class="section-head">
+                    <span class="section-badge">Résumé</span>
+                    <h2>Points clés</h2>
+                </div>
+                <div class="takeaway-grid">
+                    <div class="takeaway glass">
+                        <h3>Essentiel</h3>
+                        <p>PCA identifie des axes orthogonaux qui capturent la plus grande part de variance. Utilisez-le pour résumer la forme globale du nuage, pas pour classifier.</p>
+                    </div>
+                    <div class="takeaway glass">
+                        <h3>Conseils pratiques</h3>
+                        <p>Standardisez les variables avant PCA, regardez `explained_variance_ratio_` pour choisir le nombre de composantes, et testez la reconstruction si la compression est visée.</p>
+                    </div>
+                    <div class="takeaway glass">
+                        <h3>Limites</h3>
+                        <p>PCA est linéaire et insensible aux labels : elle ne capture pas les structures non-linéaires ni les différences subtiles entre classes.</p>
+                    </div>
+                </div>
+                <div class="wide-note glass">
+                    <strong>Checklist rapide :</strong> standardiser → calculer PCA → regarder `explained_variance_ratio_` → choisir k → valider l'usage.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

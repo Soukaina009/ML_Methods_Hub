@@ -1,0 +1,457 @@
+/* ============================================================================
+   VARIABLE & THEME CONFIGURATION (Modern Data Science Palette)
+   ============================================================================ */
+:root {
+    --primary-color: #1e3a8a;    /* Bleu nuit académique */
+    --accent-color: #f97316;     /* Orange vif pour les éléments clés */
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --bg-card: #ffffff;
+    --text-primary: #0f172a;     /* Presque noir pour un fort contraste */
+    --text-secondary: #475569;   /* Gris texturé pour les paragraphes */
+    --code-bg: #0f172a;
+    
+    /* 10 Couleurs distinctes pour les clusters MNIST si besoin */
+    --color-0: #3b82f6; --color-1: #f97316; --color-2: #10b981; 
+    --color-3: #ef4444; --color-4: #8b5cf6; --color-5: #b45309; 
+    --color-6: #ec4899; --color-7: #64748b; --color-8: #84cc16; --color-9: #06b6d4;
+}
+
+/* ============================================================================
+   RESET & STRUCTURE GLOBALE
+   ============================================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.presentation-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* ============================================================================
+   CENTRAGE ABSOLU ET COMPORTEMENT DES SLIDES
+   ============================================================================ */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;  /* Centrage horizontal */
+    align-items: center;      /* Centrage vertical */
+    padding: 60px 10%;        /* Marges de sécurité sur les côtés */
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.95) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1;
+}
+
+/* États d'animation de transition */
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+    z-index: 2;
+}
+
+.slide.prev {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.95) translateY(-20px);
+}
+
+/* Conteneur interne standardisé pour brider la largeur maximale */
+.slide-content {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ============================================================================
+   TYPOGRAPHIE & ESPACEMENTS DES PARAGRAPHES (RÉGULATION DES VIDES)
+   ============================================================================ */
+.slide-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #1e3a8a; /* Bleu nuit profond haute visibilité */
+    text-transform: capitalize;
+    letter-spacing: -0.5px;
+    margin-bottom: 45px;
+    text-align: center;
+    position: relative;
+    /* Amélioration de la netteté sur les projecteurs de soutenance */
+    text-shadow: 0 2px 4px rgba(30, 58, 138, 0.06);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Ligne d'accentuation orange pour ancrer le titre */
+.slide-title::after {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 5px;
+    background: linear-gradient(90deg, #f97316, #ff9800);
+    margin: 16px auto 0 auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.2);
+}
+
+/* Gestion stricte de l'espace entre paragraphes */
+p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 24px;      /* ESPACE NET ENTRE CHAQUE PARAGRAPHE */
+}
+
+p:last-child, ul:last-child {
+    margin-bottom: 0;         /* Évite l'espace inutile sur le dernier élément */
+}
+
+h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+/* ============================================================================
+   MISES EN PAGE : GRILLES & CARTES
+   ============================================================================ */
+.card-grid {
+    display: grid;
+    gap: 32px;                /* Espace généreux entre les blocs de cartes */
+    width: 100%;
+    align-items: stretch;
+}
+
+.col-1 { grid-template-columns: 1fr; }
+.col-2 { grid-template-columns: repeat(2, 1fr); }
+.col-3 { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Centre le texte verticalement dans la carte */
+}
+
+/* Boîte de mise en valeur (Highlight) */
+.highlight-box {
+    background: rgba(249, 115, 22, 0.08);
+    border-left: 5px solid var(--accent-color);
+    padding: 20px;
+    border-radius: 4px 12px 12px 4px;
+}
+
+.highlight-box p {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Cartes Métriques (Grands chiffres) */
+.metric-card {
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+    color: #ffffff;
+}
+
+.metric-card .metric-value {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 12px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.metric-card p {
+    color: #e2e8f0;
+}
+
+/* ============================================================================
+   BLOCS DE CODE PYTHON (HAUTE LISIBILITÉ)
+   ============================================================================ */
+.code-container {
+    background: var(--code-bg);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+    overflow-x: auto;
+}
+
+.code-container pre code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: #f8fafc;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* ============================================================================
+   SLIDE DE COUVERTURE & FIN (LAYOUTS SPÉCIAUX COUVERTURE)
+   ============================================================================ */
+.slide-1 {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    text-align: center;
+}
+
+.slide-1 .main-title {
+    font-size: 3.8rem;
+    font-weight: 900;
+    background: linear-gradient(to right, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+.slide-1 .subtitle {
+    font-size: 1.6rem;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-bottom: 60px;
+}
+
+.credits-section {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px 40px;
+    border-radius: 12px;
+    text-align: left;
+    margin: 0 auto;
+}
+
+.credit-line {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+.credit-line:last-child { margin-bottom: 0; }
+.credit-label { color: #64748b; font-weight: bold; margin-right: 8px;}
+.credit-name { color: #f8fafc; }
+
+/* ✅ Slide 16 nettoyée : fond clair pour rendre le texte "Forces et Limites" lisible */
+.slide-16 {
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+}
+
+/* DÉCORATION ICONES FLOTTANTES */
+.digits-display {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
+}
+.digit {
+    font-size: 2.5rem;
+    animation: floatAnim 3s ease-in-out infinite alternate;
+    animation-delay: var(--delay);
+}
+
+@keyframes floatAnim {
+    from { transform: translateY(0); }
+    to { transform: translateY(-15px); }
+}
+
+/* ============================================================================
+   COMPOSANTS DE NAVIGATION CONTROLS (PIXEL PERFECT BARRE)
+   ============================================================================ */
+.controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px 24px;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+.controls button {
+    background: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.controls button:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.slide-counter {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+/* Barre de progression discrète en bas de l'écran */
+.progress-bar-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    transition: width 0.3s ease;
+}
+
+/* ============================================================================
+   DESIGN DE LA SLIDE DE CLÔTURE ACADÉMIQUE (SLIDE 17)
+   ============================================================================ */
+.formal-closure {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.closure-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+/* Section Synthèse (Gauche) */
+.closure-left {
+    text-align: left;
+}
+
+.closure-main-title {
+    font-size: 2.4rem;
+    color: #1e3a8a;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.perspective-card {
+    display: flex;
+    gap: 20px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #e2e8f0;
+}
+
+.perspective-card h4 {
+    color: #1e3a8a;
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.perspective-card p {
+    font-size: 0.98rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+    color: #475569;
+}
+
+.p-icon {
+    font-size: 1.8rem;
+}
+
+/* Section Bloc de Fin (Droite) */
+.closure-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thank-you-badge {
+    background: #f97316;
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 12px 30px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.academic-footer-card {
+    background: #0f172a; /* Fond sombre élégant */
+    color: #ffffff;
+    padding: 35px;
+    border-radius: 20px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15);
+    text-align: center;
+}
+
+.student-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.student-mail {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-bottom: 0;
+}
+
+.closure-divider {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
+}
+
+.institution-text {
+    font-size: 1rem;
+    color: #e2e8f0;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.university-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #f97316;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
