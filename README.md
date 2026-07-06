@@ -1,53 +1,42 @@
-# 🚀 LDA for Efficient Image Classification (MNIST)
+# 📊 Statistical Learning & Machine Learning Benchmarks
 
-This project explores Linear Discriminant Analysis (LDA) as a powerful tool for dimensionality reduction and classification. By using the MNIST dataset, we demonstrate how to compress high-dimensional data into a small, highly representative "latent space" without losing significant accuracy.
+This repository contains a comprehensive collection of Jupyter Notebooks focusing on core **Statistical Learning** and **Machine Learning** algorithms. Most implementations are benchmarked and analyzed using the classic **MNIST handwritten digits dataset** to compare how different mathematical approaches handle high-dimensional data.
 
-## 📌 Project Overview
+---
 
-The goal is to move from a complex input space (784 pixels) to a simplified space where classes are linearly separable. Unlike unsupervised methods like PCA, LDA uses class labels to find the best possible projection.
+## 📂 Repository Structure & Notebooks
 
-**Key Features:**
-* **Dimensionality Reduction:** Compressing data from 784D down to just 9D.
-* **Fisher Ratio Optimization:** Maximizing the distance between classes while keeping individual groups compact.
-* **Supervised Learning:** Leveraging labels to improve classification performance.
+The repository is organized into the following analysis modules:
 
-## 🔬 The Science: The Fisher Ratio
+### 🧠 Dimensionality Reduction
+*   **`PCA_MNIST_Analysis.ipynb`**: Implementation of Principal Component Analysis (PCA) to reduce dimensionality, visualize variance, and optimize feature space before classification.
+*   **`PCA_MNIST_NOISING.ipynb`**: Advanced application of PCA dealing with noise injection, reconstruction, and data denoising techniques.
 
-The "heart" of this project lies in maximizing the Fisher Ratio $J(w)$:
+### 📐 Discriminant Analysis
+*   **`LDA_MNIST_Analysis.ipynb`**: Linear Discriminant Analysis (LDA) used as both a classifier and a supervised dimensionality reduction method.
+*   **`QDA_MNIST_Analysis.ipynb`**: Quadratic Discriminant Analysis (QDA) exploring non-linear quadratic decision boundaries.
 
-$$J(w) = \frac{w^T S_b w}{w^T S_w w}$$
+### 📈 Neighborhood & Tree-Based Methods
+*   **`KNN_Analysis.ipynb`**: K-Nearest Neighbors (KNN) algorithm focusing on distance metrics, local voting mechanisms, and finding the optimal K value.
+*   **`Decision_Tree_MNIST_Analysis.ipynb`**: Decision Tree Classifier exploring recursive splitting (Gini/Entropy), pruning techniques, and visualizing the resulting tree structure to control overfitting.
 
-* **$S_b$ (Between-class):** Pushes the centers of different classes as far apart as possible.
-* **$S_w$ (Within-class):** Keeps the data points within the same class tightly grouped.
-* **$w$ (The Projector):** The vector that finds the perfect angle to view and separate the data.
+### ⚡ Support Vector Machines (SVM)
+*   **`SVM_MNIST_Analysis.ipynb`**: Support Vector Machines optimization, examining the impact of different kernels (Linear, RBF) on classification margins.
+*   **`SVM_MNIST_OVSR.ipynb`**: Multi-class classification strategy using SVM with **One-vs-Rest (OvR)** configurations to handle the 10-digit MNIST classes.
 
-## 📊 Results & Performance
+---
 
-By applying LDA, we achieved a massive boost in efficiency compared to a "Direct Approach" (using raw pixels).
+## 🛠️ Key Topics Covered
 
-| Metric | Direct Approach | LDA Approach |
-| :--- | :--- | :--- |
-| **Dimensions** | 64D/784D | **9D** |
-| **Accuracy** | 96.5% | **95.2%** |
-| **Speedup** | 1x | **5.5x Faster** |
-| **Data Reduction** | 0% | **-99% Reduction** |
+*   **Bias-Variance Dilemma**: Practical tracking of Overfitting vs. Underfitting across multiple models using Train/Test accuracy curves.
+*   **Model Evaluation**: Advanced diagnostic metrics utilizing detailed classification reports and Heatmap Confusion Matrices.
+*   **Feature Scaling**: Demonstrating when data normalization (`StandardScaler`) is mathematically required (e.g., KNN, SVM) versus when it can be skipped (e.g., Decision Trees).
 
-**Conclusion:** We sacrificed only 2% of accuracy to gain 99% data compression and 5.5x faster processing times.
+---
 
-## 🛠️ Tech Stack
+## 🚀 Setup & Requirements
 
-* **Language:** Python
-* **Libraries:** Scikit-Learn (for LDA and scaling), Matplotlib/Seaborn (for visualization), NumPy.
-* **Dataset:** MNIST (Handwritten digits).
+These notebooks are designed to run in a Python 3 environment using the standard data science stack:
 
-## 📂 How to Run
-
-1. Navigate to the Github Folder.
-2. Open the Jupyter Notebook.
-3. Follow the steps: Data Scaling $\rightarrow$ LDA Projection $\rightarrow$ Final Classification.
-
-## 🧠 Future Work: Beyond LDA
-
-While LDA is a great linear model, we are also exploring:
-* **Non-linear visualization:** Using T-SNE or UMAP for complex data structures.
-* **Predictive Coding:** Moving toward bio-inspired learning models that update weights locally rather than using standard Back-Propagation.
+```bash
+pip install numpy pandas matplotlib seaborn scikit-learn
