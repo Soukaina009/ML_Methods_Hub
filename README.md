@@ -34,9 +34,10 @@ The repository is organized into the following analysis modules:
 
 ---
 
-## 🚀 Setup & Requirements
+### 🚀 Setup & Requirements
 
-These notebooks are designed to run in a Python 3 environment using the standard data science stack:
-
+1. Clonez le dépôt :
 ```bash
-pip install numpy pandas matplotlib seaborn scikit-learn
+git clone [https://github.com/Soukaina009/ML_Methods_Hub.git](https://github.com/Soukaina009/ML_Methods_Hub.git)
+cd ML_Methods_Hub
+pip install -r requirements.txt
