@@ -36,7 +36,6 @@ The repository is organized into the following analysis modules:
 
 ### 🚀 Setup & Requirements
 
-1. Clonez le dépôt :
 ```bash
 git clone [https://github.com/Soukaina009/ML_Methods_Hub.git](https://github.com/Soukaina009/ML_Methods_Hub.git)
 cd ML_Methods_Hub
