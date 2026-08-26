@@ -4,7 +4,7 @@
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebooks-orange.svg)
 ![Dataset](https://img.shields.io/badge/Dataset-MNIST-green.svg)
 
-A collection of Jupyter notebooks that implement and compare core statistical learning and machine learning algorithms. Most notebooks use the MNIST handwritten digit dataset as a common test case, so you can see how each method handles the same high-dimensional data.
+A collection of Jupyter notebooks that implement and compare core statistical learning and machine learning algorithms. Most notebooks use the MNIST handwritten digit dataset as a common test case, so you can see how each method handles the same high-dimensional data. The KNN notebook uses the Wine dataset instead, to show how the same algorithm behaves on a smaller, lower-dimensional problem.
 
 ## Why This Project
 
@@ -21,7 +21,7 @@ Many tutorials explain one algorithm at a time and stop there. This repository d
 - `QDA_MNIST_Analysis.ipynb` – Quadratic Discriminant Analysis, which allows curved (non-linear) decision boundaries.
 
 ### Neighborhood and Tree-Based Methods
-- `KNN_Analysis.ipynb` – K-Nearest Neighbors, with a focus on distance metrics and finding the best value of K.
+- `KNN_Analysis.ipynb` – K-Nearest Neighbors on the Wine dataset, with a focus on feature scaling, distance metrics, and finding the best value of K.
 - `Decision_Tree_MNIST_Analysis.ipynb` – Decision Trees, covering splitting criteria (Gini, Entropy), pruning, and how to read the tree structure.
 
 ### Support Vector Machines
@@ -30,19 +30,19 @@ Many tutorials explain one algorithm at a time and stop there. This repository d
 
 ## Results
 
-Each notebook trains on MNIST and reports its own test accuracy. Here is how the methods compare:
+Each notebook reports its own test accuracy. All notebooks use MNIST except KNN, which uses the Wine dataset (noted below):
 
-| Notebook | Method | Input Dimensions | Test Accuracy |
-|---|---|---|---|
-| `QDA_MNIST_Analysis.ipynb` | Quadratic Discriminant Analysis | 784 | 55.09% |
-| `LDA_MNIST_Analysis.ipynb` | LDA (supervised reduction) + Logistic Regression | 784 → 9 | 84.40% |
-| `Decision_Tree_MNIST_Analysis.ipynb` | Decision Tree (max_depth=12) | 784 | 87.60% |
-| `PCA_MNIST_Analysis.ipynb` | PCA + Logistic Regression | 784 → 154 | 92.08% |
-| `KNN_Analysis.ipynb` | K-Nearest Neighbors (K=5) | 784 | 93.33% |
-| `SVM_MNIST_Analysis.ipynb` | PCA + SVM | 784 → reduced | **96.36%** (best overall) |
-| `SVM_MNIST_OVSR.ipynb` | SVM, One-vs-Rest (binary: digit 0 vs. rest) | 784 | ~100%* |
+| Notebook | Method | Dataset | Input Dimensions | Test Accuracy |
+|---|---|---|---|---|
+| `QDA_MNIST_Analysis.ipynb` | Quadratic Discriminant Analysis | MNIST | 784 | 55.09% |
+| `LDA_MNIST_Analysis.ipynb` | LDA (supervised reduction) + Logistic Regression | MNIST | 784 → 9 | 84.40% |
+| `Decision_Tree_MNIST_Analysis.ipynb` | Decision Tree (max_depth=12) | MNIST | 784 | 87.60% |
+| `PCA_MNIST_Analysis.ipynb` | PCA + Logistic Regression | MNIST | 784 → 154 | 92.08% |
+| `KNN_Analysis.ipynb` | K-Nearest Neighbors (K=5) | Wine | 13 | 93.33% |
+| `SVM_MNIST_Analysis.ipynb` | PCA + SVM | MNIST | 784 → reduced | **96.36%** (best on MNIST) |
+| `SVM_MNIST_OVSR.ipynb` | SVM, One-vs-Rest (binary: digit 0 vs. rest) | MNIST | 784 | ~100%* |
 
-*The One-vs-Rest notebook solves an easier binary task (is this digit a 0, or not), so its accuracy is not directly comparable to the other rows, which classify all 10 digits.
+*The One-vs-Rest notebook solves an easier binary task (is this digit a 0, or not), so its accuracy is not directly comparable to the other MNIST rows, which classify all 10 digits. The KNN row uses a different dataset (Wine, 3 classes), so it is also not directly comparable to the MNIST results — it is included to show how the algorithm performs on a smaller, well-separated problem.
 
 **Key finding**: LDA reduces the data from 784 to only 9 dimensions (since it can use at most one dimension per class minus one) and still reaches 84.4% accuracy. This shows how much of the classification signal sits in a small number of well-chosen directions. Adding more dimensions through PCA (154) or skipping reduction entirely and using SVM with a non-linear kernel pushes accuracy above 92%, with SVM giving the best result on the full 10-class problem.
 
@@ -87,7 +87,7 @@ pip install -r requirements.txt
 jupyter notebook notebooks/
 ```
 
-Each notebook loads the MNIST dataset, trains the model, and prints:
+Each notebook loads its dataset (MNIST, or Wine for the KNN notebook), trains the model, and prints:
 - accuracy on the train and test sets
 - a classification report (precision, recall, F1-score per digit)
 - a confusion matrix heatmap
@@ -96,5 +96,5 @@ Run the notebooks in any order. Each one is self-contained and does not depend o
 
 ## Author
 
-Built by **Zemzam Soukaina**, Master's student in AI for the Digital Economy and Management.
+Built by **Soukaina**, Master's student in AI for the Digital Economy and Management.
 [GitHub](https://github.com/Soukaina009) · [LinkedIn](https://www.linkedin.com/in/soukaina-zemzam-585b8a3aa/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BEMOBq%2F32RqGeLJ3s2tgDYQ%3D%3D) · [Email](zemzamsoukaina@gmail.com)
