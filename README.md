@@ -97,4 +97,4 @@ Run the notebooks in any order. Each one is self-contained and does not depend o
 ## Author
 
 Built by **Soukaina**, Master's student in AI for the Digital Economy and Management.
-[GitHub](https://github.com/Soukaina009) · [LinkedIn](https://www.linkedin.com/in/soukaina-zemzam-585b8a3aa/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BEMOBq%2F32RqGeLJ3s2tgDYQ%3D%3D) · [Email](mailto:zemzamsoukaina@gmail.com)
+[GitHub](https://github.com/Soukaina009) · [LinkedIn](https://www.linkedin.com/in/soukaina-zemzam-585b8a3aa/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BEMOBq%2F32RqGeLJ3s2tgDYQ%3D%3D) ·[Email]<mailto:zemzamsoukaina@gmail.com>
